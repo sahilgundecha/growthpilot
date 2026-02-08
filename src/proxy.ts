@@ -6,6 +6,7 @@ const isPublicRoute = createRouteMatcher([
   "/signup(.*)",
   "/sso-callback(.*)",
   "/api/webhook(.*)",
+  "/sahil/(.*)", // Allow all routes under /sahil/ for testing
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
