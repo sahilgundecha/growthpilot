@@ -185,13 +185,12 @@ export function AICopilotPanel() {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
-          content: data.answer || "Sorry, I couldn't process that request.",
+          content: data?.answer?.content || "Sorry, I couldn't process that request.",
           timestamp: new Date(),
         };
 
         setMessages((prev) => [...prev, assistantMessage]);
       } catch (error) {
-        console.error("AI request failed:", error);
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: "assistant",

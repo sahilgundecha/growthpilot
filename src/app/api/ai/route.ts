@@ -25,14 +25,14 @@
 
 // export async function POST(req: Request) {
 //   try {
-//     const { question, context } = await req.json();
+//     // const { question, context } = await req.json();
 
-//     if (!question || typeof question !== "string") {
-//       return NextResponse.json(
-//         { error: "Question is required" },
-//         { status: 400 },
-//       );
-//     }
+//     // if (!question || typeof question !== "string") {
+//     //   return NextResponse.json(
+//     //     { error: "Question is required" },
+//     //     { status: 400 },
+//     //   );
+//     // }
 
 //     if (!process.env.OPENAI_API_KEY) {
 //       return NextResponse.json(
@@ -44,25 +44,30 @@
 //       );
 //     }
 
-//     const userPrompt = `
-// Dashboard Analytics Data:
-// ${JSON.stringify(context, null, 2)}
+//     //     const userPrompt = `
+//     // Dashboard Analytics Data:
+//     // ${JSON.stringify(context, null, 2)}
 
-// User Question: ${question}
+//     // User Question: ${question}
 
-// Please analyze the data and provide a helpful, specific answer.`;
+//     // Please analyze the data and provide a helpful, specific answer.`;
 
 //     const completion = await openai.chat.completions.create({
 //       model: "gpt-3.5-turbo-16k",
 //       messages: [
-//         { role: "system", content: SYSTEM_PROMPT },
-//         { role: "user", content: userPrompt },
+//         // { role: "system", content: SYSTEM_PROMPT },
+//         {
+//           role: "user",
+//           content: "Help me to generate random strings of 10 characters",
+//         },
 //       ],
-//       temperature: 0.7,
-//       max_tokens: 1000,
+//       // temperature: 0.7,
+//       // max_tokens: 1000,
 //     });
 
 //     const answer = completion.choices[0]?.message?.content;
+
+//     console.log({ answer, completion });
 
 //     if (!answer) {
 //       return NextResponse.json(
@@ -196,22 +201,21 @@ export async function POST(req: Request) {
     const { question, context } = await req.json();
 
     const prompt = `
-You are GrowthPilot AI, an ecommerce analytics expert.
+    You are GrowthPilot AI, an ecommerce analytics expert.
 
-Dashboard Data:
-${JSON.stringify(context, null, 2)}
+    Dashboard Data:
+    ${JSON.stringify(context, null, 2)}
 
-Question: ${question}
+    Question: ${question}
 
-Give clear insights with numbers and bullet points.
-`;
+    Give clear insights with numbers and bullet points.
+    `;
 
     const out = await client.chatCompletion({
       model: "meta-llama/Llama-3.1-8B-Instruct",
-      messages: [{ role: "user", content: "Hello, nice to meet you!" }],
-      max_tokens: 512,
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 1000,
     });
-    console.log(out.choices[0].message);
 
     return NextResponse.json({ answer: out.choices[0].message });
   } catch (e) {
